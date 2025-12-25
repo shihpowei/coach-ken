@@ -1,10 +1,12 @@
 import { defineField, defineType } from 'sanity'
 
-// 這裡引入您剛剛建立的那兩個新檔案
+// 1. 引入外部檔案
 import post from './post'
 import testimonial from './testimonial'
+import venue from './venue'      // 🆕 補上這位：合作場地
+import pricing from './pricing'  // 🆕 補上這位：價目表
 
-// --- 1. 首頁設定 (保持您原本寫好的) ---
+// --- 2. 首頁設定 (維持原樣) ---
 const homepage = defineType({
   name: 'homepage',
   title: '首頁設定 (Hero區塊)',
@@ -17,7 +19,7 @@ const homepage = defineType({
   ],
 })
 
-// --- 2. 教練檔案 (保持您原本寫好的) ---
+// --- 3. 教練檔案 (維持原樣) ---
 const profile = defineType({
   name: 'profile',
   title: '教練個人檔案',
@@ -33,12 +35,14 @@ const profile = defineType({
   ],
 })
 
-// ⚠️ 重點在這裡：把那兩個外部檔案加進 types 陣列
+// --- 4. 註冊所有類型 ---
 export const schema = {
   types: [
-    homepage,     // 原本的
-    profile,      // 原本的
-    post,         // 新增的：部落格
-    testimonial,  // 新增的：學員見證
+    homepage,
+    profile,
+    post,
+    testimonial,
+    venue,    // ✅ 這裡一定要加進去，後台才會出現！
+    pricing,  // ✅ 這裡一定要加進去，後台才會出現！
   ],
 }

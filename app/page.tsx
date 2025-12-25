@@ -5,12 +5,12 @@ import { PortableText } from "@portabletext/react";
 import {
   CheckCircle2, MapPin, Instagram, Facebook, Users, Monitor, Dumbbell,
   PlayCircle, ChevronDown, ArrowRight, ChevronRight,
-  Coins, Building2, ExternalLink // ❌ 拿掉了 Navigation，改用 MapPin
+  Coins, Building2, ExternalLink // 
 } from "lucide-react";
 
 // --- 1. Sanity 設定 ---
 const client = createClient({
-  // 🚑 修正：加上 ?? "" 騙過檢查，防止紅字
+  // 加上 ?? "" 防止紅字報錯
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "", 
   dataset: "production",
   apiVersion: "2024-01-01",
@@ -19,7 +19,6 @@ const client = createClient({
 
 // --- 2. 抓取資料 ---
 async function getAllData() {
-  // 這裡使用 try-catch 防止抓資料失敗導致整個網頁掛掉
   try {
     const query = `{
       "profile": *[_type == "profile"][0] {
@@ -43,18 +42,18 @@ async function getAllData() {
     }`;
     return await client.fetch(query, {}, { cache: 'no-store' });
   } catch (error) {
-    console.error("抓取資料失敗:", error);
-    return {}; // 如果失敗就回傳空物件，不要讓網頁爆掉
+    console.error("Fetch error:", error);
+    return {}; 
   }
 }
 
 export default async function Home() {
   const bookingUrl = "https://forms.gle/MQ3cZCcbwwv6RPXF8";
   
-  // 獲取所有資料 (強制轉型為 any，讓紅字閉嘴)
+  // 獲取資料
   const data = await getAllData() as any;
   
-  // 安全解構 (給預設值)
+  // 安全解構
   const profile = data?.profile || {};
   const homepage = data?.homepage || {};
   const posts = data?.posts || [];
@@ -62,11 +61,17 @@ export default async function Home() {
   const venues = data?.venues || [];
   const pricing = data?.pricing || [];
 
+  // --- 💡 這裡把您的「舊欄位」加回來了！ (如果後台沒資料，就會顯示這些預設值) ---
   const heroTitle = homepage.heroTitle || "阿Ken教練";
   const heroSubtitle = homepage.heroSubtitle || "高雄・屏東專業健身教練";
   const heroDesc = homepage.heroDescription || "從零開始也可以，陪你用安全、有效的訓練，慢慢養成穩定運動習慣。";
   const heroBg = homepage.heroImageUrl; 
   const portrait = profile.portraitUrl; 
+
+  // 預設列表 (這樣關於我那邊就不會是空的了)
+  const certifications = profile.certifications || ["NSCA-CPT 美國肌力與體能協會 私人教練", "AFAA PFT 美國體適能協會 個人體適能顧問", "CPR+AED 急救證照"];
+  const experience = profile.experience || ["大型連鎖健身俱樂部 教練 3年", "現任 自由教練", "累計授課超過 3000 堂"];
+  const achievements = profile.achievements || ["健力三項比賽 冠軍", "馬拉松完賽"];
 
   // 場地自動分組
   const groupedVenues = (venues || []).reduce((acc: any, venue: any) => {
@@ -107,7 +112,7 @@ export default async function Home() {
                  <div className="flex items-center gap-2"><MapPin className="h-4 w-4" /> 服務地區：高雄 / 屏東</div>
               </div>
             </div>
-            {/* 適合對象區塊 */}
+            
             <div className="flex flex-col gap-6">
               <div className="rounded-2xl border border-zinc-100 bg-white/95 backdrop-blur-sm p-6 shadow-xl shadow-zinc-900/20">
                   <div className="mb-4 flex items-center gap-2 text-lg font-bold text-zinc-900">
@@ -127,14 +132,103 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 服務方案區 (包含新價目表) */}
+      {/* 學員見證區 */}
+      {testimonials && testimonials.length > 0 && (
+        <section id="testimonials" className="py-20 bg-zinc-50 border-b">
+          <div className="mx-auto max-w-5xl px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">學員分享</h2>
+              <p className="text-zinc-600">真實的改變，從這裡開始</p>
+            </div>
+            <div className="grid gap-8 md:grid-cols-3">
+              {testimonials.map((item: any, i: number) => (
+                <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-zinc-100 flex flex-col">
+                  <div className="flex h-48 w-full">
+                    {item.beforeImageUrl ? (
+                      <div className="relative w-1/2 bg-zinc-200">
+                        <Image src={item.beforeImageUrl} alt="Before" fill className="object-cover" />
+                        <span className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">Before</span>
+                      </div>
+                    ) : <div className="w-1/2 bg-zinc-200 flex items-center justify-center text-xs text-zinc-400">無圖片</div>}
+                    {item.afterImageUrl ? (
+                      <div className="relative w-1/2 bg-zinc-200">
+                        <Image src={item.afterImageUrl} alt="After" fill className="object-cover" />
+                        <span className="absolute bottom-2 right-2 bg-orange-600 text-white text-xs px-2 py-1 rounded">After</span>
+                      </div>
+                    ) : <div className="w-1/2 bg-zinc-200 flex items-center justify-center text-xs text-zinc-400">無圖片</div>}
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="font-bold text-lg">{item.studentName}</div>
+                      <span className="text-xs bg-zinc-100 px-2 py-1 rounded-full text-zinc-600">{item.program}</span>
+                    </div>
+                    <p className="text-sm text-zinc-600 leading-relaxed line-clamp-4 flex-1">{item.content}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* About Section */}
+      <section id="about" className="bg-zinc-50 py-20">
+        <div className="mx-auto max-w-5xl px-4">
+          <div className="md:flex md:gap-12">
+             <div className="md:w-1/3 mb-8 md:mb-0">
+                <div className="relative aspect-[3/4] w-full rounded-2xl bg-zinc-200 overflow-hidden shadow-lg">
+                    {portrait ? (
+                       <Image src={portrait} alt="阿Ken教練形象照" fill className="object-cover"/>
+                    ) : (
+                       <div className="flex h-full w-full items-center justify-center text-zinc-400">
+                          <span className="text-sm text-center">請至後台<br/>上傳形象照</span>
+                       </div>
+                    )}
+                </div>
+             </div>
+             <div className="md:w-2/3">
+                <h2 className="text-3xl font-bold mb-6">關於我</h2>
+                <div className="space-y-4 text-zinc-700 text-lg leading-relaxed">
+                    {profile?.bio ? <PortableText value={profile.bio} /> : <p>資料讀取中，或請至後台填寫自我介紹...</p>}
+                </div>
+                <div className="mt-10 rounded-xl border bg-white shadow-sm overflow-hidden">
+                    <details className="group" open>
+                    <summary className="flex cursor-pointer items-center justify-between p-5 font-medium text-zinc-900 hover:bg-zinc-50 transition-colors">
+                        <span>查看完整簡歷（證照 / 經歷 / 成績）</span>
+                        <ChevronDown className="h-5 w-5 text-zinc-400 transition-transform group-open:rotate-180" />
+                    </summary>
+                    <div className="border-t px-5 pb-8 pt-4">
+                        <div className="space-y-8">
+                            <div>
+                                <h3 className="mb-3 font-bold flex items-center gap-2 text-lg text-zinc-800"><CheckCircle2 className="w-5 h-5 text-orange-600"/> 專業證照</h3>
+                                {/* 這裡改回使用預設列表，如果後台沒資料就會顯示假資料 */}
+                                <ul className="grid gap-2 md:grid-cols-2 list-disc pl-4 text-sm text-zinc-600">{certifications.map((item:any, index:number) => <li key={index}>{item}</li>)}</ul>
+                            </div>
+                            <div>
+                                <h3 className="mb-3 font-bold flex items-center gap-2 text-lg text-zinc-800"><Users className="w-5 h-5 text-blue-600"/> 經歷</h3>
+                                <ul className="grid gap-2 md:grid-cols-2 list-disc pl-4 text-sm text-zinc-600">{experience.map((item:any, index:number) => <li key={index}>{item}</li>)}</ul>
+                            </div>
+                            <div>
+                                <h3 className="mb-3 font-bold flex items-center gap-2 text-lg text-zinc-800"><Dumbbell className="w-5 h-5 text-zinc-700"/> 競技成績</h3>
+                                <ul className="space-y-1 list-disc pl-4 text-sm text-zinc-600">{achievements.map((item:any, index:number) => <li key={index}>{item}</li>)}</ul>
+                            </div>
+                        </div>
+                    </div>
+                    </details>
+                </div>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
       <section id="services" className="mx-auto max-w-5xl px-4 py-20">
         <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl font-bold">服務方案</h2>
         </div>
 
+        {/* 這裡保留了固定的服務介紹卡片 */}
         <div className="grid gap-6 md:grid-cols-3 mb-12">
-          {/* 固定卡片 */}
           <div className="group rounded-2xl border p-6 transition-all hover:border-zinc-400 hover:shadow-lg">
             <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-100 text-zinc-900 group-hover:bg-zinc-900 group-hover:text-white transition-colors"><Users className="h-6 w-6" /></div>
             <h3 className="text-xl font-bold">一對一私人教練課</h3>
@@ -152,7 +246,7 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* 🆕 動態價目表 */}
+        {/* 動態價目表 */}
         {pricing && pricing.length > 0 && (
             <div className="rounded-2xl bg-zinc-50 border border-zinc-100 p-6 md:p-8 shadow-sm">
                 <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
@@ -182,7 +276,7 @@ export default async function Home() {
         )}
       </section>
 
-      {/* 🆕 合作場館區 */}
+      {/* 合作場館區 */}
       {venues && venues.length > 0 && (
           <section id="locations" className="py-20 bg-zinc-900 text-white">
             <div className="mx-auto max-w-5xl px-4">
@@ -227,7 +321,46 @@ export default async function Home() {
           </section>
       )}
 
-      {/* Footer */}
+      {/* 部落格專區 */}
+      {posts && posts.length > 0 && (
+        <section className="py-20 bg-white border-t border-zinc-100">
+          <div className="mx-auto max-w-5xl px-4">
+            <div className="flex items-end justify-between mb-10">
+              <div><h2 className="text-3xl font-bold mb-2">教練專欄</h2><p className="text-zinc-600">最新知識分享</p></div>
+              <Link href="/blog" className="hidden md:flex items-center gap-1 text-orange-600 font-bold hover:gap-2 transition-all">看所有文章 <ArrowRight className="h-4 w-4"/></Link>
+            </div>
+            <div className="grid gap-8 md:grid-cols-3">
+              {posts.map((post:any) => (
+                <Link key={post._id} href={`/blog/${post.slug.current}`} className="group cursor-pointer">
+                  <div className="bg-zinc-50 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all h-full flex flex-col border border-zinc-100">
+                    <div className="relative aspect-video w-full bg-zinc-200 overflow-hidden">
+                       {post.mainImageUrl ? (
+                         <Image src={post.mainImageUrl} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                       ) : <div className="flex items-center justify-center h-full text-zinc-400"><Dumbbell className="h-8 w-8"/></div>}
+                    </div>
+                    <div className="p-5 flex-1 flex flex-col">
+                      <h3 className="font-bold text-lg mb-2 group-hover:text-orange-600 transition-colors line-clamp-2">{post.title}</h3>
+                      <div className="mt-auto pt-4 flex items-center text-sm font-medium text-orange-600">閱讀更多 <ChevronRight className="h-4 w-4"/></div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Media & Footer (保持簡潔) */}
+      <section id="media" className="bg-zinc-50 py-20">
+        <div className="mx-auto max-w-5xl px-4 text-center">
+            <h2 className="text-2xl font-bold mb-8">社群連結</h2>
+            <div className="flex justify-center gap-4">
+                <a className="flex items-center gap-2 bg-white px-6 py-3 rounded-full border shadow-sm hover:bg-zinc-50" href="https://www.instagram.com/trainingken12/" target="_blank"><Instagram className="h-5 w-5 text-pink-600"/> Instagram</a>
+                <a className="flex items-center gap-2 bg-white px-6 py-3 rounded-full border shadow-sm hover:bg-zinc-50" href="https://www.facebook.com/profile.php?id=100064015244172" target="_blank"><Facebook className="h-5 w-5 text-blue-600"/> Facebook</a>
+            </div>
+        </div>
+      </section>
+
       <footer className="border-t bg-white py-12 text-center text-zinc-500 text-sm">
          © {new Date().getFullYear()} 阿Ken教練｜高雄・屏東專業健身教練
       </footer>

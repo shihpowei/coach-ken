@@ -99,18 +99,10 @@ async function getAllData() {
         "heroImageUrl": heroImage.asset->url
       },
       "posts": *[_type == "post"] | order(publishedAt desc)[0...3] {
-        _id,
-        title,
-        slug,
-        publishedAt,
-        "mainImageUrl": mainImage.asset->url
+        _id, title, slug, publishedAt, "mainImageUrl": mainImage.asset->url
       },
       "testimonials": *[_type == "testimonial"] | order(_createdAt desc)[0...3] {
-        studentName,
-        program,
-        content,
-        "beforeImageUrl": beforeImage.asset->url,
-        "afterImageUrl": afterImage.asset->url
+        studentName, program, content, "beforeImageUrl": beforeImage.asset->url, "afterImageUrl": afterImage.asset->url
       },
       "venues": *[_type == "venue"] | order(area asc) { 
         area, name, address, description, url 
@@ -153,7 +145,7 @@ export default async function Home() {
   const achievements = (profile?.achievements && profile.achievements.length > 0) ? profile.achievements : ["後台尚未輸入成績資料..."];
   const portrait = profile?.portraitUrl; 
 
-  // 🆕 場地分組邏輯
+  // 🆕 場地分組邏輯 (這是讓它可以縮放分類的關鍵)
   const groupedVenues = (venues || []).reduce((acc: any, venue: any) => {
     const area = venue.area || "其他地區";
     if (!acc[area]) acc[area] = [];
@@ -344,28 +336,49 @@ export default async function Home() {
         )}
       </section>
 
-      {/* 🆕 合作場館區 (插入在服務之後，部落格之前) */}
+      {/* 🆕 合作場館區 (可縮放 Accordion 版) */}
       {venues && venues.length > 0 && (
           <section id="locations" className="py-20 bg-zinc-900 text-white">
             <div className="mx-auto max-w-5xl px-4">
-                <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div><h2 className="text-3xl font-bold mb-2 text-white">合作場館</h2><p className="text-zinc-400">高雄・屏東地區</p></div>
-                </div>
-                <div className="space-y-12">
+                <h2 className="text-3xl font-bold mb-8 text-center">合作場館</h2>
+                <div className="space-y-4">
+                  {/* 把分組好的資料印出來 */}
                   {Object.entries(groupedVenues).map(([area, areaVenues]: [string, any]) => (
-                    <div key={area}>
-                      <h3 className="text-xl font-bold mb-6 pl-3 border-l-4 border-orange-600 text-zinc-100 flex items-center gap-2">{area}</h3>
-                      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {areaVenues.map((venue:any, i:number) => (
-                          <div key={i} className="bg-zinc-800 rounded-xl p-6 border border-zinc-700 flex flex-col h-full">
-                              <h3 className="text-xl font-bold mb-2">{venue.name}</h3>
-                              <p className="text-zinc-400 text-sm mb-4 leading-relaxed">{venue.description || "歡迎預約體驗"}</p>
-                              {venue.address && (<div className="text-xs text-zinc-500 mb-4 flex items-start gap-1.5 bg-zinc-900/50 p-2 rounded"><MapPin className="h-3 w-3 mt-0.5 shrink-0 text-zinc-400" /><span>{venue.address}</span></div>)}
-                              {venue.url && (<a href={venue.url} target="_blank" rel="noopener noreferrer" className="mt-auto text-xs text-orange-400 hover:underline">查看地圖/粉專 <ExternalLink className="h-3 w-3 inline"/></a>)}
+                    <details key={area} className="group border border-zinc-700 rounded-xl bg-zinc-800/30 overflow-hidden">
+                      {/* 標題列：顯示地區 + 數量 (點這裡展開) */}
+                      <summary className="flex cursor-pointer items-center justify-between p-6 hover:bg-zinc-800 transition-colors list-none">
+                        <div className="flex items-center gap-4">
+                           <h3 className="text-xl font-bold border-l-4 border-orange-600 pl-3 text-zinc-100">{area}</h3>
+                           <span className="text-xs bg-zinc-700 px-3 py-1 rounded-full text-zinc-300">
+                             {areaVenues.length} 間
+                           </span>
+                        </div>
+                        {/* 箭頭圖示 */}
+                        <ChevronDown className="h-5 w-5 text-zinc-400 transition-transform group-open:rotate-180" />
+                      </summary>
+                      
+                      {/* 展開後的內容 */}
+                      <div className="p-6 pt-0 border-t border-zinc-700/50">
+                          <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                            {areaVenues.map((v:any, i:number) => (
+                              <div key={i} className="bg-zinc-800 rounded-xl p-6 border border-zinc-700 hover:border-orange-500/50 transition-colors">
+                                  <h3 className="text-lg font-bold mb-2">{v.name}</h3>
+                                  <p className="text-zinc-400 text-sm mb-4">{v.description || "歡迎預約"}</p>
+                                  {v.address && (
+                                    <div className="text-xs text-zinc-500 mb-2 flex items-center gap-1">
+                                      <MapPin className="h-3 w-3"/>{v.address}
+                                    </div>
+                                  )}
+                                  {v.url && (
+                                    <a href={v.url} target="_blank" className="text-xs text-orange-400 hover:underline flex gap-1 items-center">
+                                      查看地圖 <ArrowRight className="h-3 w-3"/>
+                                    </a>
+                                  )}
+                              </div>
+                            ))}
                           </div>
-                        ))}
                       </div>
-                    </div>
+                    </details>
                   ))}
                 </div>
             </div>

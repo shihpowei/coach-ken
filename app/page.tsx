@@ -245,7 +245,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* --- 學員見證區 --- */}
+ {/* --- 學員見證區 (移除標籤版) --- */}
       {testimonials && testimonials.length > 0 && (
         <section id="testimonials" className="py-20 bg-zinc-50 border-b">
           <div className="mx-auto max-w-5xl px-4">
@@ -258,14 +258,21 @@ export default async function Home() {
               {testimonials.map((item:any, i:number) => (
                 <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-zinc-100 flex flex-col">
                   <div className="flex h-48 w-full">
+                    {/* 左邊圖片 (已移除 Before 標籤) */}
                     {item.beforeImageUrl ? (
-                      <div className="relative w-1/2 bg-zinc-200"><Image src={item.beforeImageUrl} alt="Before" fill className="object-cover" /><span className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">Before</span></div>
+                      <div className="relative w-1/2 bg-zinc-200">
+                        <Image src={item.beforeImageUrl} alt="Before" fill className="object-cover" />
+                      </div>
                     ) : <div className="w-1/2 bg-zinc-200 flex items-center justify-center text-xs text-zinc-400">無圖片</div>}
                     
+                    {/* 右邊圖片 (已移除 After 標籤) */}
                     {item.afterImageUrl ? (
-                      <div className="relative w-1/2 bg-zinc-200"><Image src={item.afterImageUrl} alt="After" fill className="object-cover" /><span className="absolute bottom-2 right-2 bg-orange-600 text-white text-xs px-2 py-1 rounded">After</span></div>
+                      <div className="relative w-1/2 bg-zinc-200">
+                        <Image src={item.afterImageUrl} alt="After" fill className="object-cover" />
+                      </div>
                     ) : <div className="w-1/2 bg-zinc-200 flex items-center justify-center text-xs text-zinc-400">無圖片</div>}
                   </div>
+                  
                   <div className="p-6 flex-1 flex flex-col">
                     <div className="flex items-center gap-2 mb-3">
                       <div className="font-bold text-lg">{item.studentName}</div>
@@ -278,7 +285,7 @@ export default async function Home() {
             </div>
           </div>
         </section>
-      )}
+      )}     
 
       {/* --- About Section --- */}
       <section id="about" className="bg-zinc-50 py-20">

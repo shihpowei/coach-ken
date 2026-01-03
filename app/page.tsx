@@ -193,11 +193,49 @@ export default async function Home() {
             <div className="flex flex-col gap-6">
               <div className="rounded-2xl border border-zinc-100 bg-white/95 backdrop-blur-sm p-6 shadow-xl shadow-zinc-900/20">
                   <div className="mb-4 flex items-center gap-2 text-lg font-bold text-zinc-900"><CheckCircle2 className="h-5 w-5 text-green-600" /> 適合對象</div>
-                  <ul className="space-y-3">
-                    {["🏃 想提升表現的你：傳承運動員訓練思維，帶你突破卡關瓶頸", "💼 久坐少動的你：擺脫痠痛僵硬，找回挺拔輕鬆的身體", "🐣 毫無經驗的你：不需擔心害怕，我會手把手帶你從零開始", "🔋 想找回體力的你：建立可持續的習慣，重新啟動身體能量", "🌳 重視健康的長輩：增強肌力與平衡，享受自在的樂齡生活"].map((item, i) => (
-                      <li key={i} className="flex items-start gap-3 text-zinc-600">
-                        <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-400" />
-                        <span className="text-sm md:text-base">{item}</span>
+                  <ul className="space-y-6">
+                    {[
+                      {
+                        icon: "🏃",
+                        title: "想提升表現的你",
+                        desc: "傳承運動員訓練思維，帶你突破卡關瓶頸"
+                      },
+                      {
+                        icon: "💼",
+                        title: "久坐少動的你",
+                        desc: "擺脫痠痛僵硬，找回挺拔輕鬆的身體"
+                      },
+                      {
+                        icon: "🐣",
+                        title: "毫無經驗的你",
+                        desc: "不需擔心害怕，我會手把手帶你從零開始"
+                      },
+                      {
+                        icon: "🔋",
+                        title: "想找回體力的你",
+                        desc: "建立可持續的習慣，重新啟動身體能量"
+                      },
+                      {
+                        icon: "🌳",
+                        title: "重視健康的長輩",
+                        desc: "增強肌力與平衡，享受自在的樂齡生活"
+                      }
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-4">
+                        {/* 左邊：圖示 (固定寬度，不會被擠壓) */}
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-2xl shadow-sm border border-orange-100">
+                          {item.icon}
+                        </div>
+                        
+                        {/* 右邊：文字 (標題加粗，說明文自動換行對齊) */}
+                        <div className="pt-0.5">
+                          <h4 className="font-bold text-zinc-900 text-lg mb-1">
+                            {item.title}
+                          </h4>
+                          <p className="text-zinc-600 text-sm leading-relaxed">
+                            {item.desc}
+                          </p>
+                        </div>
                       </li>
                     ))}
                   </ul>

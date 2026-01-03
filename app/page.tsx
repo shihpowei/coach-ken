@@ -194,7 +194,7 @@ export default async function Home() {
               <div className="rounded-2xl border border-zinc-100 bg-white/95 backdrop-blur-sm p-6 shadow-xl shadow-zinc-900/20">
                   <div className="mb-4 flex items-center gap-2 text-lg font-bold text-zinc-900"><CheckCircle2 className="h-5 w-5 text-green-600" /> 適合對象</div>
                   <ul className="space-y-3">
-                    {["久坐、常覺得痠痛，但又不太敢自己亂練的上班族", "完全沒有運動基礎、從零開始的新手", "曾經運動過，想重新建立規律與體力的人", "年長者（銀髮族），希望維持活動力、預防退化與跌倒的人"].map((item, i) => (
+                    {["🏃 想提升表現的你：傳承運動員訓練思維，帶你突破卡關瓶頸", "💼 久坐少動的你：擺脫痠痛僵硬，找回挺拔輕鬆的身體", "🐣 毫無經驗的你：不需擔心害怕，我會手把手帶你從零開始", "🔋 想找回體力的你：建立可持續的習慣，重新啟動身體能量", "🌳 重視健康的長輩：增強肌力與平衡，享受自在的樂齡生活"].map((item, i) => (
                       <li key={i} className="flex items-start gap-3 text-zinc-600">
                         <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-400" />
                         <span className="text-sm md:text-base">{item}</span>

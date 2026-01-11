@@ -1,6 +1,8 @@
 // 檔案路徑：app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+// 🆕 1. 引入分析工具 (這是新增的)
+import { Analytics } from "@vercel/analytics/react"; 
 import "./globals.css";
 // ✅ 正確寫法：一個點，代表「就在這裡找」
 import Navbar from "./components/Navbar"; // 👈 這裡就是引入我們剛剛做的 Navbar
@@ -51,6 +53,9 @@ export default function RootLayout({
         <footer className="border-t bg-white py-8 text-center text-sm text-zinc-500">
             © {new Date().getFullYear()} Ken教練-柏瑋. All rights reserved.
         </footer>
+
+        {/* 🆕 2. 這裡放入計數器，它會自動回傳數據給 Vercel (這是新增的) */}
+        <Analytics />
       </body>
     </html>
   );

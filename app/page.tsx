@@ -26,7 +26,7 @@ import {
 // --- 1. Sanity 設定 ---
 const client = createClient({
   // ✅ 改成環境變數，並加上 ?? "" 防止紅字
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "", 
+ projectId: "4z692qnu",
   dataset: "production",
   apiVersion: "2024-01-01",
   useCdn: false, 

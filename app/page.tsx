@@ -442,23 +442,28 @@ export default async function Home() {
             </div>
 
             <div className="grid gap-8 md:grid-cols-3">
-              {posts.map((post:any) => (
-                <Link key={post._id} href={`/blog/${post.slug.current}`} className="group cursor-pointer">
-                  <div className="bg-zinc-50 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all h-full flex flex-col border border-zinc-100">
-                    <div className="relative aspect-video w-full bg-zinc-200 overflow-hidden">
-                       {post.mainImageUrl ? (
-                         <Image src={post.mainImageUrl} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                       ) : (
-                         <div className="flex items-center justify-center h-full text-zinc-400"><Dumbbell className="h-8 w-8"/></div>
-                       )}
+              {posts.map((post:any) => {
+                // 🛑 安全氣囊：如果這篇文章沒有網址 (slug)，就直接跳過不顯示，避免網站崩潰
+                if (!post.slug || !post.slug.current) return null;
+
+                return (
+                  <Link key={post._id} href={`/blog/${post.slug.current}`} className="group cursor-pointer">
+                    <div className="bg-zinc-50 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all h-full flex flex-col border border-zinc-100">
+                      <div className="relative aspect-video w-full bg-zinc-200 overflow-hidden">
+                        {post.mainImageUrl ? (
+                          <Image src={post.mainImageUrl} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                        ) : (
+                          <div className="flex items-center justify-center h-full text-zinc-400"><Dumbbell className="h-8 w-8"/></div>
+                        )}
+                      </div>
+                      <div className="p-5 flex-1 flex flex-col">
+                        <h3 className="font-bold text-lg mb-2 group-hover:text-orange-600 transition-colors line-clamp-2">{post.title}</h3>
+                        <div className="mt-auto pt-4 flex items-center text-sm font-medium text-orange-600">閱讀更多 <ChevronRight className="h-4 w-4"/></div>
+                      </div>
                     </div>
-                    <div className="p-5 flex-1 flex flex-col">
-                      <h3 className="font-bold text-lg mb-2 group-hover:text-orange-600 transition-colors line-clamp-2">{post.title}</h3>
-                      <div className="mt-auto pt-4 flex items-center text-sm font-medium text-orange-600">閱讀更多 <ChevronRight className="h-4 w-4"/></div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>

@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://coach-ken.vercel.app/sitemap.xml

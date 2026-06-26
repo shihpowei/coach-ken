@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { defineField, defineType } from 'sanity'
 
 // 1. 引入外部檔案
@@ -46,3 +47,13 @@ export const schema = {
     pricing,  // ✅ 這裡一定要加進去，後台才會出現！
   ],
 }
+=======
+import { type SchemaTypeDefinition } from 'sanity'
+import profile from './profile'
+import homepage from './homepage' // 👈 新增這一行
+import post from './post'
+
+export const schema: { types: SchemaTypeDefinition[] } = {
+  types: [profile, homepage, post], // 👈 這裡也要加入 homepage
+}
+>>>>>>> 93c6b6d (更新網站 SEO 與內容)

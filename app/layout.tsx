@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://coach-ken.vercel.app'),
   title: {
     template: '%s | 阿Ken教練 施柏瑋',
     default: '阿Ken教練 施柏瑋 | 高雄・屏東專業健身教練', 
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '阿Ken教練 施柏瑋',
     description: '高雄・屏東專業健身教練，陪你用安全、有效的訓練建立穩定運動習慣。',
+    url: 'https://coach-ken.vercel.app',
     siteName: '阿Ken教練 施柏瑋',
     locale: 'zh_TW',
     type: 'website',

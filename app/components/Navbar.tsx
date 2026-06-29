@@ -14,6 +14,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "關於我", href: "/#about" },
     { name: "服務課程", href: "/#services" },
+    { name: "找教練", href: "/#coach-search" },
     { name: "學員見證", href: "/#testimonials" }, 
     { name: "教練專欄", href: "/#blog" },
   ];

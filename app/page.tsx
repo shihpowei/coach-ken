@@ -153,6 +153,24 @@ export default async function Home() {
     return acc;
   }, {});
 
+  const searchEntryPages = [
+    {
+      title: "高雄私人健身教練",
+      desc: "適合住在高雄，想找一對一教練、建立肌力與規律運動習慣的你。",
+      href: "/kaohsiung-personal-trainer",
+    },
+    {
+      title: "屏東私人健身教練",
+      desc: "屏東地區想開始健身、改善體能或找人協助規劃訓練，可以先從這裡了解。",
+      href: "/pingtung-personal-trainer",
+    },
+    {
+      title: "新手健身入門",
+      desc: "第一次健身、不知道怎麼開始，先學基本動作與適合自己的訓練節奏。",
+      href: "/beginner-training",
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-white text-zinc-900 font-sans">
       
@@ -241,6 +259,40 @@ export default async function Home() {
                   </ul>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- 搜尋入口頁 --- */}
+      <section id="coach-search" className="border-b bg-white py-16">
+        <div className="mx-auto max-w-5xl px-4">
+          <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="mb-2 text-sm font-bold text-orange-600">依需求找到適合你的課程</p>
+              <h2 className="text-3xl font-extrabold tracking-tight">你正在找哪一種健身教練？</h2>
+            </div>
+            <p className="max-w-xl text-sm leading-relaxed text-zinc-600">
+              如果你是從 Google 搜尋「高雄健身教練」、「屏東私人教練」或「新手健身」進來，這幾個入口可以幫你更快找到對應資訊。
+            </p>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-3">
+            {searchEntryPages.map((page) => (
+              <Link
+                key={page.href}
+                href={page.href}
+                className="group rounded-2xl border border-zinc-200 bg-zinc-50 p-6 transition-all hover:-translate-y-1 hover:border-orange-300 hover:bg-white hover:shadow-lg"
+              >
+                <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-600 transition-colors group-hover:bg-orange-600 group-hover:text-white">
+                  <Navigation className="h-5 w-5" />
+                </div>
+                <h3 className="text-xl font-bold text-zinc-900">{page.title}</h3>
+                <p className="mt-3 min-h-20 text-sm leading-relaxed text-zinc-600">{page.desc}</p>
+                <div className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-orange-600 transition-all group-hover:gap-2">
+                  查看介紹 <ArrowRight className="h-4 w-4" />
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

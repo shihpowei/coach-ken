@@ -6,6 +6,8 @@ import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 // ✅ 正確寫法：一個點，代表「就在這裡找」
 import Navbar from "./components/Navbar"; // 👈 這裡就是引入我們剛剛做的 Navbar
+import GoogleAnalytics from "./components/GoogleAnalytics";
+import BookingClickTracker from "./components/BookingClickTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,6 +60,8 @@ export default function RootLayout({
 
         {/* 🆕 2. 這裡放入計數器，它會自動回傳數據給 Vercel (這是新增的) */}
         <Analytics />
+        <GoogleAnalytics />
+        <BookingClickTracker />
       </body>
     </html>
   );

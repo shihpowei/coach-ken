@@ -27,7 +27,7 @@ export default function Navbar() {
         {/* LOGO */}
         <Link href="/" className="flex items-center gap-2 font-black text-xl tracking-tighter text-zinc-900" onClick={closeMenu}>
           <Dumbbell className="h-6 w-6 text-orange-600" />
-          <span>Ken教練<span className="text-zinc-400 font-normal">.FIT</span></span>
+          <span>阿Ken教練<span className="text-zinc-400 font-normal"> 施柏瑋</span></span>
         </Link>
 
         {/* 電腦版選單 (Desktop) */}

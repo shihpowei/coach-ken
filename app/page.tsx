@@ -135,7 +135,7 @@ export default async function Home() {
   const pricing = data?.pricing || [];
 
   // --- 資料防呆處理 ---
-  const heroTitle = homepage?.heroTitle || "阿Ken教練";
+  const heroTitle = homepage?.heroTitle || "阿Ken教練 施柏瑋";
   const heroSubtitle = homepage?.heroSubtitle || "高雄・屏東專業健身教練";
   const heroDesc = homepage?.heroDescription || "從零開始也可以，陪你用安全、有效的訓練，慢慢養成穩定運動習慣。";
   const heroBg = homepage?.heroImageUrl; 
@@ -293,7 +293,7 @@ export default async function Home() {
           <div className="md:flex md:gap-12">
              <div className="md:w-1/3 mb-8 md:mb-0">
                 <div className="relative aspect-[3/4] w-full rounded-2xl bg-zinc-200 overflow-hidden shadow-lg">
-                    {portrait ? (<Image src={portrait} alt="阿Ken教練形象照" fill className="object-cover"/>) : (<div className="flex h-full w-full items-center justify-center text-zinc-400"><span className="text-sm text-center">請至後台<br/>上傳形象照</span></div>)}
+                    {portrait ? (<Image src={portrait} alt="阿Ken教練 施柏瑋形象照" fill className="object-cover"/>) : (<div className="flex h-full w-full items-center justify-center text-zinc-400"><span className="text-sm text-center">請至後台<br/>上傳形象照</span></div>)}
                 </div>
              </div>
              
@@ -510,7 +510,7 @@ export default async function Home() {
         <div className="mx-auto max-w-5xl px-4 py-12 text-sm text-zinc-500">
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
             <div className="space-y-4 max-w-sm">
-                <div className="font-bold text-zinc-900 text-lg">© {new Date().getFullYear()} 阿Ken教練｜高雄・屏東專業健身教練</div>
+                <div className="font-bold text-zinc-900 text-lg">© {new Date().getFullYear()} 阿Ken教練 施柏瑋｜高雄・屏東專業健身教練</div>
                 <a className="hover:underline text-zinc-900 font-medium" href={bookingUrl} target="_blank" rel="noopener">填寫表單預約課程</a>
             </div>
             {/* ✅ 這裡！您最在意的服務範圍區塊，我100%保留了！ */}

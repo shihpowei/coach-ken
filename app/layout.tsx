@@ -19,15 +19,15 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Ken教練-柏瑋',
-    default: 'Ken教練-柏瑋 | 打造您的個人品牌與職涯優勢', 
+    template: '%s | 阿Ken教練 施柏瑋',
+    default: '阿Ken教練 施柏瑋 | 高雄・屏東專業健身教練', 
   },
-  description: "Ken教練-柏瑋官方網站。專注於協助專業人士建立個人品牌、網站系統與職涯教練服務。",
-  keywords: ['Ken教練', '柏瑋', '個人品牌', '職涯教練', '健身教練', '增肌減脂'],
+  description: "阿Ken教練 施柏瑋官方網站。提供高雄、屏東一對一私人健身教練課、小團體訓練與新手健身入門。",
+  keywords: ['阿Ken教練', '施柏瑋', '高雄健身教練', '屏東健身教練', '私人教練', '增肌減脂'],
   openGraph: {
-    title: 'Ken教練-柏瑋',
-    description: '協助您突破職涯瓶頸，打造個人影響力。',
-    siteName: 'Ken教練-柏瑋',
+    title: '阿Ken教練 施柏瑋',
+    description: '高雄・屏東專業健身教練，陪你用安全、有效的訓練建立穩定運動習慣。',
+    siteName: '阿Ken教練 施柏瑋',
     locale: 'zh_TW',
     type: 'website',
   },
@@ -51,7 +51,7 @@ export default function RootLayout({
         </main>
 
         <footer className="border-t bg-white py-8 text-center text-sm text-zinc-500">
-            © {new Date().getFullYear()} Ken教練-柏瑋. All rights reserved.
+            © {new Date().getFullYear()} 阿Ken教練 施柏瑋. All rights reserved.
         </footer>
 
         {/* 🆕 2. 這裡放入計數器，它會自動回傳數據給 Vercel (這是新增的) */}

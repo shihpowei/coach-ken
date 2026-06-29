@@ -96,7 +96,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     <Calendar className="h-4 w-4"/>
                     {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : '近期發布'}
                     <span className="mx-2">|</span>
-                    <span>Ken 教練</span>
+                    <span>阿Ken教練 施柏瑋</span>
                 </div>
             </div>
         </div>

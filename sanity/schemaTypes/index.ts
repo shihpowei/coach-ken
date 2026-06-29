@@ -12,7 +12,7 @@ const homepage = defineType({
   title: '首頁設定 (Hero區塊)',
   type: 'document',
   fields: [
-    defineField({ name: 'heroTitle', title: '主標題 (例如: 阿Ken教練)', type: 'string' }),
+    defineField({ name: 'heroTitle', title: '主標題 (例如: 阿Ken教練 施柏瑋)', type: 'string' }),
     defineField({ name: 'heroSubtitle', title: '副標題', type: 'string' }),
     defineField({ name: 'heroDescription', title: '簡短描述', type: 'text' }),
     defineField({ name: 'heroImage', title: '背景大圖', type: 'image', options: { hotspot: true } }),

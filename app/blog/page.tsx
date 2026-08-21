@@ -11,6 +11,17 @@ const client = createClient({
   useCdn: false,
 });
 
+type BlogListPost = {
+  _id: string;
+  title: string;
+  slug?: {
+    current?: string;
+  };
+  publishedAt?: string;
+  mainImageUrl?: string;
+  excerpt?: string;
+};
+
 async function getPosts() {
   const query = `*[_type == "post"] | order(publishedAt desc) {
     _id,
@@ -21,11 +32,11 @@ async function getPosts() {
     "excerpt": array::join(string::split((pt::text(body)), "")[0..100], "") + "..."
   }`;
   const data = await client.fetch(query, {}, { cache: 'no-store' });
-  return data;
+  return data as BlogListPost[];
 }
 
 export default async function BlogPage() {
-  const posts = await getPosts() as any[];
+  const posts = await getPosts();
 
   return (
     <div className="min-h-screen bg-zinc-50 py-20">
@@ -42,7 +53,10 @@ export default async function BlogPage() {
 
         {posts.length > 0 ? (
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
+            {posts.map((post) => {
+              if (!post.slug?.current) return null;
+
+              return (
                 <Link key={post._id} href={`/blog/${post.slug.current}`} className="group cursor-pointer">
                 <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all h-full flex flex-col border border-zinc-100">
                     <div className="relative aspect-video w-full bg-zinc-200 overflow-hidden">
@@ -55,11 +69,17 @@ export default async function BlogPage() {
                             <span className="flex items-center gap-1"><Calendar className="h-3 w-3"/> {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : '近期'}</span>
                         </div>
                         <h2 className="font-bold text-xl mb-3 group-hover:text-orange-600 transition-colors line-clamp-2 text-zinc-900">{post.title}</h2>
+                        {post.excerpt && (
+                          <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-zinc-600">
+                            {post.excerpt}
+                          </p>
+                        )}
                         <div className="mt-auto pt-4 border-t border-zinc-100 flex items-center text-sm font-bold text-orange-600 group-hover:gap-2 transition-all">閱讀全文 <ArrowRight className="h-4 w-4 ml-1"/></div>
                     </div>
                 </div>
                 </Link>
-            ))}
+              );
+            })}
             </div>
         ) : <div className="text-center py-20 text-zinc-400">目前還沒有文章...</div>}
       </div>

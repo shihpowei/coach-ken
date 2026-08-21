@@ -63,7 +63,7 @@ export async function generateMetadata({
   }
 
   const postTitle = post.title || "教練專欄";
-  const title = `${postTitle} | 阿Ken教練 施柏瑋`;
+  const shareTitle = `${postTitle} | 阿Ken教練 施柏瑋`;
   const description = buildPostDescription(post);
   const url = `${siteUrl}/blog/${slug}`;
   const images = post.mainImageUrl
@@ -76,13 +76,13 @@ export async function generateMetadata({
     : undefined;
 
   return {
-    title,
+    title: postTitle,
     description,
     alternates: {
       canonical: `/blog/${slug}`,
     },
     openGraph: {
-      title,
+      title: shareTitle,
       description,
       url,
       siteName: "阿Ken教練 施柏瑋",
@@ -94,7 +94,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: images ? "summary_large_image" : "summary",
-      title,
+      title: shareTitle,
       description,
       images: post.mainImageUrl ? [post.mainImageUrl] : undefined,
     },

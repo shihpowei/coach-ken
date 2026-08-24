@@ -6,9 +6,11 @@ import {
   ArrowRight,
   BookOpenText,
   CalendarCheck,
+  CheckCircle2,
   Dumbbell,
   MapPin,
   MessageCircle,
+  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 
@@ -19,7 +21,8 @@ const client = createClient({
   useCdn: false,
 });
 
-const bookingUrl = "https://forms.gle/MQ3cZCcbwwv6RPXF8";
+const bookingFromIgUrl =
+  "https://forms.gle/MQ3cZCcbwwv6RPXF8?utm_source=instagram&utm_medium=bio&utm_campaign=booking";
 
 export const metadata: Metadata = {
   title: "阿Ken教練連結入口",
@@ -106,10 +109,16 @@ export default async function LinksPage() {
     },
   ];
 
+  const quickReasons = [
+    "第一次健身也能從基礎開始",
+    "高雄、屏東可安排一對一訓練",
+    "以動作品質、肌力與長期維持為核心",
+  ];
+
   return (
-    <main className="min-h-screen bg-zinc-950 text-white">
-      <section className="mx-auto flex min-h-screen w-full max-w-2xl flex-col px-5 py-8">
-        <div className="flex flex-1 flex-col justify-center gap-7">
+    <main className="min-h-screen bg-[#101312] text-white">
+      <section className="mx-auto flex min-h-screen w-full max-w-2xl flex-col px-5 py-6">
+        <div className="flex flex-1 flex-col justify-center gap-6">
           <div className="flex items-center gap-4">
             <div className="relative h-20 w-20 overflow-hidden rounded-full border border-white/15 bg-zinc-800">
               {portraitUrl ? (
@@ -128,28 +137,48 @@ export default async function LinksPage() {
               )}
             </div>
             <div>
-              <p className="text-sm font-medium text-orange-300">
+              <p className="text-sm font-bold text-[#f7a15d]">
                 高雄・屏東私人健身教練
               </p>
-              <h1 className="mt-1 text-3xl font-black tracking-tight">
+              <h1 className="mt-1 text-3xl font-black">
                 阿Ken教練 施柏瑋
               </h1>
               <p className="mt-2 text-sm leading-relaxed text-zinc-300">
-                安全、有效、能長期維持的訓練節奏。
+                從學開始也可以，陪你用安全、有效的訓練，慢慢養成穩定運動習慣。
               </p>
             </div>
           </div>
 
+          <section className="rounded-lg border border-white/10 bg-white px-5 py-5 text-zinc-950">
+            <p className="text-xs font-black uppercase text-[#c95f28]">
+              Start Here
+            </p>
+            <h2 className="mt-2 text-2xl font-black">
+              想開始訓練，先填表單，我會再跟你確認適合的方式。
+            </h2>
+            <div className="mt-4 grid gap-2">
+              {quickReasons.map((reason) => (
+                <p
+                  key={reason}
+                  className="flex items-start gap-2 text-sm font-bold leading-relaxed text-zinc-700"
+                >
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+                  {reason}
+                </p>
+              ))}
+            </div>
+          </section>
+
           <div className="grid gap-3">
             <a
-              href={bookingUrl}
+              href={bookingFromIgUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex min-h-14 items-center justify-between rounded-lg bg-orange-500 px-5 py-4 text-base font-black text-white shadow-lg shadow-orange-950/30 transition hover:bg-orange-400"
+              className="flex min-h-14 items-center justify-between rounded-lg bg-[#ec6b2e] px-5 py-4 text-base font-black text-white shadow-lg shadow-black/25 transition hover:bg-[#ff8447]"
             >
               <span className="flex items-center gap-3">
                 <CalendarCheck className="h-5 w-5" />
-                立即預約體驗課
+                填寫表單，預約諮詢
               </span>
               <ArrowRight className="h-5 w-5" />
             </a>
@@ -163,6 +192,16 @@ export default async function LinksPage() {
               </span>
               <ArrowRight className="h-5 w-5 text-zinc-400" />
             </Link>
+            <Link
+              href="/beginner-training"
+              className="flex min-h-14 items-center justify-between rounded-lg border border-white/12 bg-white/8 px-5 py-4 text-base font-bold text-white transition hover:bg-white/12"
+            >
+              <span className="flex items-center gap-3">
+                <ShieldCheck className="h-5 w-5 text-sky-300" />
+                第一次健身先看這篇
+              </span>
+              <ArrowRight className="h-5 w-5 text-zinc-400" />
+            </Link>
           </div>
 
           <section className="space-y-3">
@@ -173,7 +212,7 @@ export default async function LinksPage() {
               </h2>
               <Link
                 href="/blog"
-                className="text-sm font-bold text-orange-300 hover:text-orange-200"
+                className="text-sm font-bold text-[#f7a15d] hover:text-orange-200"
               >
                 全部文章
               </Link>
@@ -201,7 +240,7 @@ export default async function LinksPage() {
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center">
-                            <Dumbbell className="h-6 w-6 text-zinc-400" />
+                            <BookOpenText className="h-6 w-6 text-zinc-400" />
                           </div>
                         )}
                       </div>
@@ -255,6 +294,10 @@ export default async function LinksPage() {
               );
             })}
           </section>
+
+          <p className="pb-2 text-center text-xs leading-relaxed text-zinc-500">
+            IG 來的朋友可以先從預約表單開始；如果還在觀望，也可以先看文章和學員見證。
+          </p>
         </div>
       </section>
     </main>

@@ -19,6 +19,19 @@ export default {
       },
     },
     {
+      name: 'seoTitle',
+      title: 'SEO 標題',
+      type: 'string',
+      description: '搜尋結果與瀏覽器分頁標題，建議 30-60 字。',
+    },
+    {
+      name: 'seoDescription',
+      title: 'SEO 描述',
+      type: 'text',
+      rows: 3,
+      description: '搜尋結果摘要，建議 80-155 字。',
+    },
+    {
       name: 'mainImage',
       title: '文章主圖',
       type: 'image',

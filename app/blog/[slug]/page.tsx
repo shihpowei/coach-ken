@@ -19,6 +19,8 @@ const siteUrl = "https://coach-ken.vercel.app";
 
 type BlogPost = {
   title?: string;
+  seoTitle?: string;
+  seoDescription?: string;
   publishedAt?: string;
   mainImageUrl?: string;
   excerpt?: string;
@@ -28,6 +30,9 @@ type BlogPost = {
 function buildPostDescription(post?: BlogPost | null) {
   const fallback =
     "阿Ken教練 施柏瑋分享健身訓練、動作品質、增肌減脂與運動習慣建立的專業文章。";
+  const seoDescription = post?.seoDescription?.replace(/\s+/g, " ").trim();
+  if (seoDescription) return seoDescription.length > 155 ? `${seoDescription.slice(0, 152)}...` : seoDescription;
+
   const excerpt = post?.excerpt?.replace(/\s+/g, " ").trim();
 
   if (!excerpt) return fallback;
@@ -38,6 +43,8 @@ function buildPostDescription(post?: BlogPost | null) {
 async function getPost(slug: string) {
   const query = `*[_type == "post" && slug.current == $slug][0] {
     title,
+    seoTitle,
+    seoDescription,
     publishedAt,
     "mainImageUrl": mainImage.asset->url,
     "excerpt": array::join(string::split((pt::text(body)), "")[0..155], ""),
@@ -63,7 +70,8 @@ export async function generateMetadata({
   }
 
   const postTitle = post.title || "教練專欄";
-  const shareTitle = `${postTitle} | 阿Ken教練 施柏瑋`;
+  const metadataTitle = post.seoTitle || postTitle;
+  const shareTitle = post.seoTitle || `${postTitle} | 阿Ken教練 施柏瑋`;
   const description = buildPostDescription(post);
   const url = `${siteUrl}/blog/${slug}`;
   const images = post.mainImageUrl
@@ -76,7 +84,7 @@ export async function generateMetadata({
     : undefined;
 
   return {
-    title: postTitle,
+    title: metadataTitle,
     description,
     alternates: {
       canonical: `/blog/${slug}`,
